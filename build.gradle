@@ -1,0 +1,48 @@
+defaultTasks 'clean','test','aggregate'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'net.serenity-bdd.aggregator'
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+group 'com.banistmo'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.0.80")
+    }
+}
+
+ext{
+    serenityCoreVersion = '2.0.80'
+    screenplayVersion = '1.9.9'
+}
+
+dependencies {
+    implementation "net.serenity-bdd:serenity-core:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-junit:${serenityCoreVersion}",
+            'net.serenity-bdd:serenity-cucumber:1.9.45',
+            "net.serenity-bdd:serenity-screenplay:${screenplayVersion}",
+            "net.serenity-bdd:serenity-screenplay-webdriver:${screenplayVersion}"
+
+    testImplementation('junit:junit:4.12')
+    testImplementation('org.assertj:assertj-core:1.7.0')
+    testImplementation('org.slf4j:slf4j-simple:1.7.7')
+}
+
+test {
+    ignoreFailures = true
+}
+
+gradle.startParameter.continueOnFailure = true
